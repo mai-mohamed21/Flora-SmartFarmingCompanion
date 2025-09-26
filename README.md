@@ -9,3 +9,4 @@ By providing **instant and accurate insights**, Flora helps to:
 - ⏳ Save time  
 - 📈 Support smarter farming decisions  
 - 🌿 Lead to healthier plants and improved productivity  
+- 🏡 Empower home growers to start gardening, identify plant diseases, and learn how to care for their plants  
