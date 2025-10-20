@@ -2,7 +2,7 @@
 builder = "nixpacks"
 
 [deploy]
-startCommand = "cd backend && gunicorn app:app --bind 0.0.0.0:$PORT"
+startCommand = "cd Backend && gunicorn app:app --bind 0.0.0.0:$PORT"
 
 [variables]
 PYTHON_VERSION = "3.9.0"
