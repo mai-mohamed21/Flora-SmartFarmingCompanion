@@ -64,7 +64,7 @@ class PlantDiseaseModel:
                 response = requests.get(model_url)
                 with open(model_path, 'wb') as f:
                     f.write(response.content)
-                print("✅ Model downloaded successfully!")
+                print("Model downloaded successfully!")
             
             # Load model architecture
             model = models.resnet50(weights=None)
