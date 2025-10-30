@@ -18,7 +18,7 @@ class PlantDiseaseModel:
         self.transform = None
         self.disease_classes = None
         self.healthy_classes = None
-        
+
     def init(self):
         try:
             self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -47,13 +47,12 @@ class PlantDiseaseModel:
         except Exception as e:
             logger.error(f"Error in model initialization: {str(e)}")
             return False
-    
+
     def _load_model(self):
         try:
             from torchvision import models
             import torch.nn as nn
             
-            # Space
             model_path = "best_resnet50_model_by_f1.pth"
             
             # Load model architecture
@@ -74,7 +73,7 @@ class PlantDiseaseModel:
         except Exception as e:
             logger.error(f"Error loading model: {str(e)}")
             raise
-    
+
     def preprocess_image(self, image_data):
         try:
             if isinstance(image_data, bytes):
@@ -91,7 +90,7 @@ class PlantDiseaseModel:
         except Exception as e:
             logger.error(f"Error in image preprocessing: {str(e)}")
             raise
-    
+
     def run(self, image_data):
         try:
             input_tensor = self.preprocess_image(image_data)
@@ -99,22 +98,19 @@ class PlantDiseaseModel:
             with torch.no_grad():
                 outputs = self.model(input_tensor)
                 probabilities = F.softmax(outputs, dim=1)
-                confidence, predicted_idx = torch.max(probabilities, 1)
                 
-                predicted_idx = predicted_idx.item()
-                confidence = confidence.item()
-                predicted_class = self.categories[predicted_idx]
-                
-                prob_disease = probabilities[0][self.disease_classes].sum().item()
-                prob_healthy = probabilities[0][self.healthy_classes].sum().item()
-                
-                if prob_disease > prob_healthy:
+                # Get top probability from each group
+                max_prob_disease = probabilities[0][self.disease_classes].max().item()
+                max_prob_healthy = probabilities[0][self.healthy_classes].max().item()
+
+                # Compare and determine status
+                if max_prob_disease > max_prob_healthy:
                     status = "Diseased"
-                    overall_confidence = prob_disease
+                    overall_confidence = max_prob_disease
                 else:
-                    status = "Healthy" 
-                    overall_confidence = prob_healthy
-                
+                    status = "Healthy"
+                    overall_confidence = max_prob_healthy
+
                 result = {
                     "status": status,
                     "overall_confidence": float(overall_confidence)
@@ -126,6 +122,8 @@ class PlantDiseaseModel:
             logger.error(f"Error during inference: {str(e)}")
             raise
 
+
+# Global model instance
 model = PlantDiseaseModel()
 
 def init():
