@@ -5,6 +5,7 @@ from PIL import Image
 import logging
 import sys
 import os
+from flask_cors import CORS  # أضف ده لدعم CORS
 
 # Add current directory to path to import score
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -14,6 +15,9 @@ from score import PlantDiseaseModel
 
 # Initialize Flask app
 app = Flask(__name__)
+
+# Enable CORS for all routes (هذا يسمح للفرونت اند يطلب من الـ API)
+CORS(app)
 
 # Initialize model
 model = PlantDiseaseModel()
