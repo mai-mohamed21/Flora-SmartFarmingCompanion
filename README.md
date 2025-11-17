@@ -10,3 +10,8 @@ By providing **instant and accurate insights**, Flora helps to:
 - 📈 Support smarter farming decisions  
 - 🌿 Lead to healthier plants and improved productivity  
 - 🏡 Empower home growers to start gardening, identify plant diseases, and learn how to care for their plants  
+dagshub upload maimohamed201526/plant-disease-project <local_file_path> <remote_file_path>
+dagshub download maimohamed201526/plant-disease-project <remote_file_path> <local_file_path>
+from dagshub.upload import Repo
+repo = Repo('maimohamed201526', 'plant-disease-project')
+repo.upload(local_path='<local_file_path>', remote_path='<remote_file_path>', versioning='dvc')
